@@ -1,4 +1,3 @@
-
 import pickle
 import pandas as pd
 import streamlit as st
@@ -19,22 +18,25 @@ flipper_length_mm = st.number_input('Enter Flipper Length (mm):')
 body_mass_g = st.number_input('Enter Body Mass (g):')
 sex = st.selectbox('Select sex:', ['MALE', 'FEMALE'])
 
-# Encode the input values
-island_encode = island_encoder.transform([island])[0]
-sex_encode = sex_encoder.transform([sex])[0]
-
-# Create a DataFrame for the input
-input_data = pd.DataFrame({
-    'island': [island_encode],
+# Create a DataFrame from user input
+x_new = pd.DataFrame({
+    'island': [island],
     'culmen_length_mm': [culmen_length_mm],
     'culmen_depth_mm': [culmen_depth_mm],
     'flipper_length_mm': [flipper_length_mm],
     'body_mass_g': [body_mass_g],
-    'sex': [sex_encode]
+    'sex': [sex]
 })
 
-# Make prediction
-if st.button('Predict'):
-    prediction = model.predict(input_data)
-    result = species_encoder.inverse_transform(prediction)
-    st.write(f'Predicted Species: {result[0]}')
+# Transform the input data using the encoders
+x_new['island'] = island_encoder.transform(x_new['island'])
+x_new['sex'] = sex_encoder.transform(x_new['sex'])
+
+# Make predictions
+y_pred_new = model.predict(x_new)
+
+# Decode the predicted species
+result = species_encoder.inverse_transform(y_pred_new)
+
+# Display the prediction
+st.write('Predicted Species:', result[0])
