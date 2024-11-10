@@ -17,8 +17,10 @@ culmen_depth_mm = st.number_input('Enter Culmen Depth (mm):')
 flipper_length_mm = st.number_input('Enter Flipper length (mm):')
 body_mass_g = st.number_input('Enter Body Mass (g):')
 sex = st.selectbox('Select sex :', ['Male','Female'])
-island_encode = island_encoder.transform(x_new['island'])
-sex_encode = sex_encoder.transform(x_new['sex'])
+
+island_encode = island_encoder.transform(island)
+sex_encode = sex_encoder.transform(sex)
+
 # Create a DataFrame for the input
 input_data = pd.DataFrame({
     'island': [island_encode],
@@ -26,7 +28,7 @@ input_data = pd.DataFrame({
     'culmen_depth_mm': [culmen_depth_mm],
     'flipper_length_mm': [flipper_length_mm],
     'body_mass_g': [body_mass_g],
-    'sex': [island_encode]
+    'sex': [sex_encode]
 })
 
 # Make prediction
