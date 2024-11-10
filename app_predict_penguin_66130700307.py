@@ -31,5 +31,5 @@ input_data = pd.DataFrame({
 # Make prediction
 if st.button('Predict'):
     prediction = model.predict(input_data)
-    st.write(f'Predicted Specie: {round(prediction[0])}')
+    st.write(f'Predicted Specie: {round(prediction)}')
 
